@@ -98,10 +98,21 @@ class CTSensor(OhmeEntity, SensorEntity):
     _attr_device_class = SensorDeviceClass.CURRENT
     _attr_native_unit_of_measurement = UnitOfElectricCurrent.AMPERE
 
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Get value from data returned from API by coordinator."""
+        if self.coordinator.data and "clampAmps" in self.coordinator.data:
+            self._state = self.coordinator.data["clampAmps"]
+        else:
+            self._state = None
+
+        self._last_updated = utcnow()
+        self.async_write_ha_state()
+
     @property
     def native_value(self):
-        """Get value from data returned from API by coordinator"""
-        return self.coordinator.data['clampAmps']
+        """Return pre-calculated state."""
+        return self._state
 
 
 class EnergyUsageSensor(OhmeEntity, SensorEntity):
