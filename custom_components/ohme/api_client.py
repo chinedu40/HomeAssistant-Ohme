@@ -140,7 +140,7 @@ class OhmeApiClient:
 
             return True
 
-    async def _get_request(self, url):
+    async def _get_request(self, url, retry_on_unauthorized=True):
         """Make a GET request."""
         await self.async_refresh_session()
         async with self._session.get(
@@ -148,6 +148,11 @@ class OhmeApiClient:
             headers=self._get_headers()
         ) as resp:
             _LOGGER.debug(f"GET request to {url}, status code {resp.status}")
+            if resp.status == 401 and retry_on_unauthorized:
+                _LOGGER.debug("GET request unauthorized, refreshing session and retrying.")
+                await self.async_create_session()
+                return await self._get_request(url, retry_on_unauthorized=False)
+
             await self._handle_api_error(url, resp)
 
             return await resp.json()
