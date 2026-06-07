@@ -1,6 +1,6 @@
 import voluptuous as vol
 from homeassistant.config_entries import (ConfigFlow, OptionsFlow)
-from .const import DOMAIN, CONFIG_VERSION, DEFAULT_INTERVAL_CHARGESESSIONS, DEFAULT_INTERVAL_ACCOUNTINFO, DEFAULT_INTERVAL_ADVANCED, DEFAULT_INTERVAL_SCHEDULES
+from .const import DOMAIN, CONFIG_VERSION, DEFAULT_INTERVAL_CHARGESESSIONS, DEFAULT_INTERVAL_ACCOUNTINFO, DEFAULT_INTERVAL_ADVANCED
 from .api_client import OhmeApiClient
 
 
@@ -98,9 +98,6 @@ class OhmeOptionsFlow(OptionsFlow):
                         ) : vol.All(vol.Coerce(float), vol.Clamp(min=DEFAULT_INTERVAL_ACCOUNTINFO)),
                         vol.Required(
                             "interval_advanced", default=self._config_entry.options.get("interval_advanced", DEFAULT_INTERVAL_ADVANCED)
-                        ) : vol.All(vol.Coerce(float), vol.Clamp(min=DEFAULT_INTERVAL_ADVANCED)),
-                        vol.Required(
-                            "interval_schedules", default=self._config_entry.options.get("interval_schedules", DEFAULT_INTERVAL_SCHEDULES)
-                        ) : vol.All(vol.Coerce(float), vol.Clamp(min=DEFAULT_INTERVAL_SCHEDULES))
+                        ) : vol.All(vol.Coerce(float), vol.Clamp(min=DEFAULT_INTERVAL_ADVANCED))
                     }), errors=errors
         )
