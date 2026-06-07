@@ -1,5 +1,5 @@
 from functools import reduce
-from datetime import datetime, timedelta
+from datetime import datetime
 from .const import DOMAIN, DATA_OPTIONS
 import pytz
 # import logging
@@ -100,15 +100,6 @@ def in_slot(data):
     
     return False
 
-
-def time_next_occurs(hour, minute):
-    """Find when this time next occurs."""
-    current = datetime.now()
-    target = current.replace(hour=hour, minute=minute, second=0, microsecond=0)
-    if target <= datetime.now():
-        target = target + timedelta(days=1)
-
-    return target
 
 
 def session_in_progress(hass, account_id, data):
