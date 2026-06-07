@@ -247,7 +247,13 @@ class OhmeApiClient:
 
     async def async_get_schedule(self):
         """Get the first schedule."""
-        schedules = await self._get_request("/v1/chargeRules")
+        try:
+            schedules = await self._get_request("/v1/chargeRules")
+        except ApiException as e:
+            if "404" in str(e):
+                _LOGGER.debug("chargeRules endpoint not available (404) - endpoint may have been removed")
+                return None
+            raise
 
         return schedules[0] if len(schedules) > 0 else None
 
