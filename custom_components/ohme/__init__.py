@@ -4,7 +4,7 @@ from homeassistant.helpers.entity_registry import RegistryEntry, async_migrate_e
 from .const import *
 from .utils import get_option
 from .api_client import OhmeApiClient
-from .coordinator import OhmeChargeSessionsCoordinator, OhmeAccountInfoCoordinator, OhmeAdvancedSettingsCoordinator, OhmeChargeSchedulesCoordinator
+from .coordinator import OhmeChargeSessionsCoordinator, OhmeAccountInfoCoordinator, OhmeAdvancedSettingsCoordinator
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.issue_registry import async_create_issue
 
@@ -67,7 +67,6 @@ async def async_setup_entry(hass, entry):
         OhmeChargeSessionsCoordinator(hass=hass, account_id=account_id),   # COORDINATOR_CHARGESESSIONS
         OhmeAccountInfoCoordinator(hass=hass, account_id=account_id),      # COORDINATOR_ACCOUNTINFO
         OhmeAdvancedSettingsCoordinator(hass=hass, account_id=account_id), # COORDINATOR_ADVANCED
-        OhmeChargeSchedulesCoordinator(hass=hass, account_id=account_id)   # COORDINATOR_SCHEDULES
     ]
 
     # We can function without these so setup can continue

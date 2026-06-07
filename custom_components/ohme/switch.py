@@ -35,12 +35,12 @@ async def async_setup_entry(
                 OhmeMaxChargeSwitch(coordinator, hass, client)
                 ]
 
-    if client.cap_available():
+    if client.cap_available:
         switches.append(
             OhmePriceCapSwitch(accountinfo_coordinator, hass, client)
         )
-    
-    if client.solar_capable():
+
+    if client.is_capable("solar"):
         switches.append(
             OhmeSolarBoostSwitch(accountinfo_coordinator, hass, client)
         )
